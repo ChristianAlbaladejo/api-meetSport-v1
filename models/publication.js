@@ -4,10 +4,10 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var PublicationSchema = Schema({
-    text: string,
+    text: String,
     file: String,
     crated_at: String,
-    user: { type: Schema.ObjectId, ref: 'User'},
+    user: { type: Schema.ObjectId, ref: 'User' },
     location: String
 });
 
