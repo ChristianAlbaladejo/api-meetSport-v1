@@ -15,22 +15,22 @@ function saveFollow(req, res) {
     follow.followed = params.followed;
 
     follow.save((err, followStored) => {
-        if(err) return res.status(500).send({message: 'Error in follow'});
+        if (err) return res.status(500).send({ message: 'Error in follow' });
 
-        if (!followStored) return res.status(404)({ message: 'Follow has not been saved'})
+        if (!followStored) return res.status(404)({ message: 'Follow has not been saved' })
 
-        return res.status(200).send({follow:followStored});
+        return res.status(200).send({ follow: followStored });
     });
 }
 
-function deleteFollow(req,res) {
+function deleteFollow(req, res) {
     var userId = req.user.sub;
     var followId = req.params.id;
 
-    Follow.find({'user':userId, 'followed':followId}).remove(err => {
+    Follow.find({ 'user': userId, 'followed': followId }).remove(err => {
         if (err) return res.status(500).send({ message: 'Error in unfollow' });
 
-        return res.status(200).send({message: 'Follow is deleted'})
+        return res.status(200).send({ message: 'Follow is deleted' })
     });
 }
 
@@ -41,23 +41,23 @@ function getFollowingUsers(req, res) {
         userId = req.params.id;
     }
     var page = 1;
-    
+
     if (req.params.page) {
         page = req.params.page;
-    }else{
+    } else {
         page = req.params.id;
     }
-    
+
     var itemsPerPage = 4;
 
-    Follow.find({user:userId}).populate({path: 'followed'}).paginate(page, itemsPerPage, (err, follows, total)=>{
+    Follow.find({ user: userId }).populate({ path: 'followed' }).paginate(page, itemsPerPage, (err, follows, total) => {
         if (err) return res.status(500).send({ message: 'Error in unfollow' });
 
-        if (!follows) return res.status(404).send({ message: 'You are not following any user'})
-    
+        if (!follows) return res.status(404).send({ message: 'You are not following any user' })
+
         return res.status(200).send({
             total: total,
-            page: Math.ceil(total/itemsPerPage),
+            page: Math.ceil(total / itemsPerPage),
             follows
         })
     });
@@ -79,7 +79,7 @@ function getFollowedUsers(req, res) {
 
     var itemsPerPage = 4;
 
-    Follow.find({ followed: userId }).populate( 'user' ).paginate(page, itemsPerPage, (err, follows, total) => {
+    Follow.find({ followed: userId }).populate('user').paginate(page, itemsPerPage, (err, follows, total) => {
         if (err) return res.status(500).send({ message: 'Error in unfollow' });
 
         if (!follows) return res.status(404).send({ message: 'You are not followed any user' })
@@ -97,12 +97,12 @@ function getMyfollows(req, res) {
     var userId = req.user.sub;
     var followed = req.params.followed;
 
-    var find = Follow.find({user: userId});
+    var find = Follow.find({ user: userId });
     if (req.params.followed) {
-        find = Follow.find({followed: userId});
+        find = Follow.find({ followed: userId });
     }
 
-    Follow.find({user: userId}).populate('user followed').exec((err, follows) =>{
+    Follow.find({ user: userId }).populate('user followed').exec((err, follows) => {
         if (err) return res.status(500).send({ message: 'Error in unfollow' });
 
         if (!follows) return res.status(404).send({ message: 'You are not folloing any user' })

@@ -103,7 +103,7 @@ function uploadFile(req, res) {
 
         if (file_ext == 'GPX' || file_ext == 'GDB' || file_ext == 'KML ' || file_ext == 'KMZ' || file_ext == 'LOC' || file_ext == 'TRK ' || file_ext == 'WPT ' || file_ext == 'RTE' || file_ext == 'PLT ' || file_ext == 'WPT ' || file_ext == 'PNT ') {
             // Upload the image
-            Publication.find({'user': req.user.sub, '_id':publicationId}).exec((err, publication) => {
+            Publication.find({ 'user': req.user.sub, '_id': publicationId }).exec((err, publication) => {
                 if (publication) {
                     Publication.findByIdAndUpdate(publicationId, { image: file_name }, { new: true }, (err, publicationUpdated) => {
                         if (err) return res.status(500).send({ message: 'Error in the request' });
@@ -112,7 +112,7 @@ function uploadFile(req, res) {
 
                         return res.status(200).send({ user: publicationUpdated });
                     });
-                }else{
+                } else {
                     return removeFilesOfUploads(res, file_path, 'You are not permitted to update this photo')
                 }
             });
@@ -142,13 +142,45 @@ function getFileFile(req, res) {
     });
 }
 
+function like(req, res) {
+    var publicationId = req.params.id;
+    console.log(req.user.sub, publicationId)
+    /* Publication.find({ '_id': publicationId }).updateOne((err) => {
+        if (err) return res.status(500).send({ message: 'Error' })
+        
+
+        return res.status(200).send({
+            text: req.user.sub
+        });
+    }) */
+    Publication.findOne({ like: { $in: [req.user.sub] }, _id: publicationId }, function name(err, result) {
+        if (err) return res.status(500).send({ message: 'Error in the request' });
+        if (!result) {
+            Publication.updateOne({ _id: publicationId }, { $push: { like: req.user.sub } }, (err) => {
+                if (err) return res.status(500).send({ message: 'Error in the request' });
+                return res.status(200).send({
+                    messages: req.user.sub
+                })
+            });
+        } else {
+            Publication.updateOne({ _id: publicationId }, { $pull: { like: req.user.sub } }, (err) => {
+                if (err) return res.status(500).send({ message: 'Error in the request' });
+                return res.status(200).send({
+                    messages: "deleted"
+                })
+            });
+        }
+    });
+}
+
 module.exports = {
     savePublication,
     getPublications,
     getPublication,
     deletePublication,
     uploadFile,
-    getFileFile
+    getFileFile,
+    like
 
 
 }

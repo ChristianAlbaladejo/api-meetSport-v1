@@ -111,12 +111,12 @@ function loginUser(req, res) {
 
 function getUser(req, res) {
     var userId = req.params.id;
-    
+
     User.findById(userId, (err, user) => {
         if (err) return res.status(500).send({ message: 'Error in the request' });
 
         if (!user) return res.status(404).send({ message: 'The user does not exist' });
-        
+
         followThisUser(req.user.sub, userId).then((value) => {
             user.password = undefined;
             return res.status(200).send({
@@ -163,7 +163,7 @@ function getUsers(req, res) {
 
         if (!users) return res.status(404).send({ mesaage: 'No aviable users' });
 
-        followUserIds(identify_user_id).then((value)=>{
+        followUserIds(identify_user_id).then((value) => {
 
             return res.status(200).send({
                 users,
@@ -211,14 +211,14 @@ async function followUserIds(user_id) {
 function getCounters(req, res) {
     var userId = req.user.sub
     if (req.params.id) {
-        getCountFollow(req.params.id).then((value)=>{
+        getCountFollow(req.params.id).then((value) => {
             return res.status(200).send(value)
         });
-    }else{
+    } else {
 
     }
 
-    getCountFollow(userId).then((value)=>{
+    getCountFollow(userId).then((value) => {
         return res.status(200).send(value);
     });
 }
@@ -236,7 +236,7 @@ async function getCountFollow(user_id) {
         return handleError(err);
     });
 
-    var publications = await Publication.count({"user":user_id}).exec((err, count)=> {
+    var publications = await Publication.count({ "user": user_id }).exec((err, count) => {
         if (err) return handleError(err);
         return count;
     });

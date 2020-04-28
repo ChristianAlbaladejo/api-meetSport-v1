@@ -4,8 +4,8 @@ var jwt = require('jwt-simple');
 var moment = require('moment');
 var secret = 'clave_para_mi_api_redsocial'
 
-exports.createToken = function(user) {
-    var payload ={
+exports.createToken = function (user) {
+    var payload = {
         sub: user._id,
         name: user.name,
         surname: user.surname,

@@ -8,6 +8,7 @@ var PublicationSchema = Schema({
     file: String,
     crated_at: String,
     user: { type: Schema.ObjectId, ref: 'User' },
+    like: [String],
     location: String
 });
 
