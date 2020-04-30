@@ -4,7 +4,8 @@
   "description": "Backend para el proyecto final de DAW",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "index.js",
+    "serve": "nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Christian Albaladejo Carrasco",
