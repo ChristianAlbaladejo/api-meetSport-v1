@@ -3,9 +3,11 @@
 var mongoose = require('mongoose');
 var app = require('./app');
 var port = 3800;
+const config = require('./config')
+
 
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(config.db, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
