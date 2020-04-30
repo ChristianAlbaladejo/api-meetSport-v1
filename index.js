@@ -1,23 +1,17 @@
 'use strict'
 
-var mongoose = require('mongoose');
-var app = require('./app');
-var port = 3800;
+const mongoose = require('mongoose')
+const app = require('./app')
 const config = require('./config')
 
+mongoose.connect(config.db, (err, res) => {
+    if (err) {
+        return console.log(`Error al conectar a la base de datos: ${err}`)
+    }
+    console.log('Conexión a la base de datos establecida...')
 
-mongoose.Promise = global.Promise;
-mongoose.connect(config.db, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-    .then(() => {
-        console.log("Premio oleh");
-
-        // Create server
-        app.listen(port,() =>{
-            console.log('Server is running in http://localhost:3800');
-        });
+    app.listen(config.port, () => {
+        console.log(`API REST corriendo en http://localhost:${config.port}`)
     })
-    .catch(err => console.log(err));
+})
 

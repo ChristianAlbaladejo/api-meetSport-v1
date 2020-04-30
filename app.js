@@ -14,7 +14,6 @@ var message_routes = require('./routes/message');
 // middlewars
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
 // cors
 // configure http headers
 app.use((req, res, next) => {
