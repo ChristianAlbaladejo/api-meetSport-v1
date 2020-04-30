@@ -5,7 +5,7 @@ var app = require('./app');
 var port = 3800;
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/meetSport_Social', {
+mongoose.connect('process.env.MONGODB', {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })
