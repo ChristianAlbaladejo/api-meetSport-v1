@@ -259,14 +259,29 @@ function updateUser(req, res) {
     if (userId != req.user.sub) {
         return res.status(500).send({ message: 'You dont have permissions' });
     }
+    User.find({
+        $or: [
+            { email: user.email.toLowerCase() },
+            { nick: user.nick.toLowerCase() }
+        ]
+    }).exec((err, user) => {
+        users.forEach((user) => {
+            var user_isset = false
+            if (user && user._id != userId) user_isset = true; 
+        });
 
-    User.findByIdAndUpdate(userId, update, { new: true }, (err, userUpdated) => {
-        if (err) return res.status(500).send({ message: 'Error in the request' });
+        if (user_isset) return res.status(404).send({ message: 'The data is in use' })
+        User.findByIdAndUpdate(userId, update, { new: true }, (err, userUpdated) => {
+            if (err) return res.status(500).send({ message: 'Error in the request' });
 
-        if (!userUpdated) return res.status(404().send({ message: 'The user could not be modified' }));
+            if (!userUpdated) return res.status(404().send({ message: 'The user could not be modified' }));
 
-        return res.status(200).send({ user: userUpdated });
-    });
+            return res.status(200).send({ user: userUpdated });
+        });
+
+    })
+
+
 }
 
 //Upload image fot a user
