@@ -27,15 +27,10 @@ function deleteFollow(req, res) {
     var userId = req.user.sub;
     var followId = req.params.id;
 
-    Follow.eliminar({ 'user': userId, 'followed': followId }, (err => {
-
+    Follow.find({ 'user': userId, 'followed': followId }).remove( err => {
         if (err) return res.status(500).send({ message: 'Error in unfollow' });
-
-
-
         return res.status(200).send({ message: 'Follow is deleted' })
-
-    }));
+    });
 }
 
 function getFollowingUsers(req, res) {
