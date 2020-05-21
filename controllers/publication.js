@@ -17,10 +17,10 @@ function savePublication(req, res) {
 
     var publication = new Publication();
     publication.text = params.text;
-    publication.file = 'null';
+    publication.file = params.file;
     publication.user = req.user.sub;
     publication.created_at = moment().unix;
-    publication.location = 'null';
+    publication.location = params.location;
 
     publication.save((err, publicationStored) => {
         if (err) return res.status(500).send({ message: 'Error saving the publication' });
