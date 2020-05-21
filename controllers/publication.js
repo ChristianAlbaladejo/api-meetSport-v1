@@ -19,7 +19,7 @@ function savePublication(req, res) {
     publication.text = params.text;
     publication.file = params.file;
     publication.user = req.user.sub;
-    publication.created_at = moment().unix;
+    publication.created_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');
     publication.location = params.location;
 
     publication.save((err, publicationStored) => {
