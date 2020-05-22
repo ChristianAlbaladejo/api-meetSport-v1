@@ -7,6 +7,7 @@ var PublicationSchema = Schema({
     text: String,
     file: String,
     created_at: String,
+    date: String
     user: { type: Schema.ObjectId, ref: 'User' },
     like: [String],
     location: String
