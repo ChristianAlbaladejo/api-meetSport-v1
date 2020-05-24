@@ -66,6 +66,30 @@ function getPublications(req, res) {
     });
 }
 
+function getPublicationsUser(req, res) {
+    var page = 1;
+    if (req.params.page) {
+        page = req.params.page;
+    }
+
+    var itemsPerPage = 4;
+
+        Publication.find({ user: req.user.sub }).sort('-created_at').populate('user').paginate(page, itemsPerPage, (err, publications, total) => {
+            if (err) return res.status(500)({ message: 'Error when returning the follow up' });
+
+            if (!publications) return res.status(404).send({ message: 'No publications' });
+
+            return res.status(200).send({
+                total_items: total,
+                pages: Math.ceil(total / itemsPerPage),
+                page: page,
+                items_per_page: itemsPerPage,
+                publications
+            })
+        });
+}
+
+
 function getPublication(req, res) {
     var publicationId = req.params.id;
 
@@ -179,6 +203,7 @@ module.exports = {
     savePublication,
     getPublications,
     getPublication,
+    getPublicationsUser,
     deletePublication,
     uploadFile,
     getFileFile,
