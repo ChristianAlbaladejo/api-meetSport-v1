@@ -135,7 +135,7 @@ function uploadFile(req, res) {
 
         if (file_ext == 'GPX' || file_ext == 'GDB' || file_ext == 'KML ' || file_ext == 'KMZ' || file_ext == 'LOC' || file_ext == 'TRK ' || file_ext == 'WPT ' || file_ext == 'RTE' || file_ext == 'PLT ' || file_ext == 'WPT ' || file_ext == 'PNT ') {
             // Upload the image
-            User.findByIdAndUpdate(userId, { image: file_name }, { new: true }, (err, userUpdated) => {
+            Publication.findByIdAndUpdate(userId, { image: file_name }, { new: true }, (err, userUpdated) => {
                 if (err) return res.status(500).send({ message: 'Error in the request' });
 
                 if (!userUpdated) return res.status(404().send({ message: 'The user could not be modified' }));
