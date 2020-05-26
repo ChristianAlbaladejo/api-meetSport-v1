@@ -14,7 +14,7 @@ api.get('/publications/:page?', md_auth.ensureAuth, PublicationController.getPub
 api.get('/publications-user/:user/:page?', md_auth.ensureAuth, PublicationController.getPublicationsUser)
 api.get('/publication/:id', md_auth.ensureAuth, PublicationController.getPublication)
 api.delete('/publication/:id', md_auth.ensureAuth, PublicationController.deletePublication)
-api.post('/upload-image-pub/:id', [md_auth.ensureAuth, md_upload], PublicationController.uploadFile)
-api.get('/get-image-pub/:id', PublicationController.getFileFile)
+api.post('/upload-file-pub/:id', [md_auth.ensureAuth, md_upload], PublicationController.uploadFile)
+api.get('/get-file-pub/:id', PublicationController.getFileFile)
 api.post('/like/:id', md_auth.ensureAuth,PublicationController.like)
 module.exports = api;
