@@ -117,8 +117,40 @@ function deletePublication(req, res) {
         });
     })
 }
-
 function uploadFile(req, res) {
+    var userId = req.params.id;
+    if (req.files) {
+        var file_path = req.files.image.path;
+        var file_split = file_path.split('\/');
+        console.log(file_split);
+        var file_name = file_split[2];
+        console.log(file_name);
+        var ext_split = file_name.split('\.');
+        console.log(ext_split);
+        var file_ext = ext_split[1];
+
+        if (userId != req.user.sub) {
+            return removeFilesOfUploads(res, file_path, 'You dont have permissions');
+        }
+
+        if (file_ext == 'GPX' || file_ext == 'GDB' || file_ext == 'KML ' || file_ext == 'KMZ' || file_ext == 'LOC' || file_ext == 'TRK ' || file_ext == 'WPT ' || file_ext == 'RTE' || file_ext == 'PLT ' || file_ext == 'WPT ' || file_ext == 'PNT ') {
+            // Upload the image
+            User.findByIdAndUpdate(userId, { image: file_name }, { new: true }, (err, userUpdated) => {
+                if (err) return res.status(500).send({ message: 'Error in the request' });
+
+                if (!userUpdated) return res.status(404().send({ message: 'The user could not be modified' }));
+
+                return res.status(200).send({ user: userUpdated });
+            })
+        } else {
+            return removeFilesOfUploads(res, file_path, 'Invalid extension');
+        }
+    } else {
+        return res.status(200).send({ message: 'No images have been uploaded' });
+    }
+}
+
+/* function uploadFile(req, res) {
     var publicationId = req.params.id;
     if (req.files) {
         var file_path = req.files.image.path;
@@ -151,7 +183,7 @@ function uploadFile(req, res) {
     } else {
         return res.status(200).send({ message: 'No images have been uploaded' });
     }
-}
+} */
 
 function removeFilesOfUploads(res, file_path, message) {
     fs.unlink(file_path, (err) => {
