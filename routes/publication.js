@@ -17,4 +17,5 @@ api.delete('/publication/:id', md_auth.ensureAuth, PublicationController.deleteP
 api.post('/upload-file-pub/:id', [md_auth.ensureAuth, md_upload], PublicationController.uploadFile)
 api.get('/get-file-pub/:id', PublicationController.getFileFile)
 api.post('/like/:id', md_auth.ensureAuth,PublicationController.like)
+api.post('/dislike/:id', md_auth.ensureAuth, PublicationController.dislike)
 module.exports = api;
