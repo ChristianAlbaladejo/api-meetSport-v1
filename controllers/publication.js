@@ -73,11 +73,11 @@ function getPublicationsUser(req, res) {
     }
     var user = req.user.sub;
     if (req.params.sub) {
-        user_id = req.params.user;
+        user = req.params.user;
     }
     var itemsPerPage = 4;
 
-    Publication.find({ user: user_id }).sort('-created_at').populate('user').paginate(page, itemsPerPage, (err, publications, total) => {
+    Publication.find({ user: user }).sort('-created_at').populate('user').paginate(page, itemsPerPage, (err, publications, total) => {
             if (err) return res.status(500)({ message: 'Error when returning the follow up' });
 
             if (!publications) return res.status(404).send({ message: 'No publications' });
