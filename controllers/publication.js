@@ -110,7 +110,6 @@ function deletePublication(req, res) {
 
     Publication.find({ user: req.user.sub, '_id': publicationId }).deleteOne((err, publicationRemoved) => {
         if (err) return res.status(500).send({ message: 'Error when deleting publications' })
-        if (!publicationRemoved) return res.status(404).send({ message: 'The publication could not be deleted' });
 
         return res.status(200).send({
             publication: publicationRemoved,
