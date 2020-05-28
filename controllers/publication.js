@@ -71,10 +71,11 @@ function getPublicationsUser(req, res) {
     if (req.params.page) {
         page = req.params.page;
     }
-    var user = req.user.sub;
+    var user = req.params.user;
+    /* var user = req.user.sub;
     if (req.params.sub) {
         user = req.params.user;
-    }
+    } */
     var itemsPerPage = 4;
 
     Publication.find({ user: user }).sort('-created_at').populate('user').paginate(page, itemsPerPage, (err, publications, total) => {
