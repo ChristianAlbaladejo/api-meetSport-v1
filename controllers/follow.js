@@ -53,7 +53,7 @@ function getFollowingUsers(req, res) {
         if (err) return res.status(500).send({ message: 'Error in unfollow' });
 
         if (!follows) return res.status(404).send({ message: 'You are not following any user' })
-        Follow.find({ followed: userId }).populate('user').paginate(page, itemsPerPage, (err, follows, total) => {
+        followUserIds(req.user.sub).then((value) => {
             return res.status(200).send({
                 total: total,
                 page: Math.ceil(total / itemsPerPage),
