@@ -16,7 +16,7 @@ function saveMessage(req, res) {
     message.emitter = req.user.sub;
     message.receiver = params.receiver;
     message.text = params.text;
-    message.created_at = moment().unix();
+    message.created_at = moment().utc().format('YYYY-MM-DD HH:mm:ss');;
     message.viewed = false;
 
     message.save((err, messageStored) => {
