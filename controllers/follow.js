@@ -132,22 +132,20 @@ async function followUserIds(user_id) {
 //Return users list
 function getMyfollows(req, res) {
     var userId = req.user.sub;
-    var followed = req.params.followed;
 
     var find = Follow.find({ user: userId });
+    
     if (req.params.followed) {
         find = Follow.find({ followed: userId });
     }
 
-    Follow.find({ user: userId }).populate('user followed').exec((err, follows) => {
-        if (err) return res.status(500).send({ message: 'Error in unfollow' });
+    find.populate('user followed').exec((err, follows) => {
+        if(err) return res.status(500).send({message: 'Error in the server'});
 
-        if (!follows) return res.status(404).send({ message: 'You are not folloing any user' })
+        if (!follows) return res.status(404).send({ message: 'You do not follow any user'});
 
-        return res.status(200).send({
-            follows
-        })
-    });
+        return res.status(200).send({follows});
+    })
 }
 
 
