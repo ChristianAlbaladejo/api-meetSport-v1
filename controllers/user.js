@@ -156,7 +156,7 @@ function getUsers(req, res) {
         page = req.params.page;
     }
 
-    var itemsPerPage = 5;
+    var itemsPerPage = 50;
 
     User.find().sort('_id').paginate(page, itemsPerPage, (err, users, total) => {
         if (err) return res.status(500).send({ message: 'Error in the request' });
