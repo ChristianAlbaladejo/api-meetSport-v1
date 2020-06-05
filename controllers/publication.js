@@ -205,15 +205,15 @@ function getFileFile(req, res) {
 
 function dislike(req, res) {
     var publicationId = req.params.id;
-    Publication.findOne({ like: { $in: [req.user.sub] }, _id: publicationId }, function name(err, result) {
-        if (err) return res.status(500).send({ message: 'Error in the request' });
+/*     Publication.findOne({ like: { $in: [req.user.sub] }, _id: publicationId }, function name(err, result) {
+        if (err) return res.status(500).send({ message: 'Error in the request' }); */
         Publication.updateOne({ _id: publicationId }, { $pull: { like: req.user.sub } }, (err) => {
             if (err) return res.status(500).send({ message: 'Error in the request' });
             return res.status(200).send({
                 messages: "deleted"
             })
         });
-    });
+    /* }); */
 }
 
 function like(req, res) {
@@ -227,8 +227,8 @@ function like(req, res) {
             text: req.user.sub
         });
     }) */
-    Publication.findOne({ like: { $in: [req.user.sub] }, _id: publicationId }, function name(err, result) {
-        if (err) return res.status(500).send({ message: 'Error in the request' });
+   /*  Publication.findOne({ like: { $in: [req.user.sub] }, _id: publicationId }, function name(err, result) {
+        if (err) return res.status(500).send({ message: 'Error in the request' }); */
         /* if (!result) { */
             Publication.updateOne({ _id: publicationId }, { $push: { like: req.user.sub } }, (err) => {
                 if (err) return res.status(500).send({ message: 'Error in the request' });
@@ -244,7 +244,7 @@ function like(req, res) {
                 })
             });
         } */
-    });
+   /*  }); */
 }
 
 module.exports = {
